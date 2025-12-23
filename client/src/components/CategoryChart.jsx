@@ -13,10 +13,11 @@ const COLORS = {
 };
 
 function CategoryChart({ data }) {
-  const chartData = Object.entries(data).map(([category, amount]) => ({
+  const chartData = Object.entries(data).map(([category, amount], index) => ({
     name: category,
     value: amount,
-    color: COLORS[category] || '#6B7280'
+    color: COLORS[category] || '#6B7280',
+    id: `${category}-${index}`
   }));
 
   const CustomTooltip = ({ active, payload }) => {
@@ -47,8 +48,8 @@ function CategoryChart({ data }) {
             fill="#8884d8"
             dataKey="value"
           >
-            {chartData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
+            {chartData.map((entry) => (
+              <Cell key={entry.id} fill={entry.color} />
             ))}
           </Pie>
           <Tooltip content={<CustomTooltip />} />
@@ -58,7 +59,7 @@ function CategoryChart({ data }) {
 
       <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4">
         {chartData.map((item) => (
-          <div key={item.name} className="flex items-center">
+          <div key={item.id} className="flex items-center">
             <div 
               className="w-4 h-4 rounded mr-2" 
               style={{ backgroundColor: item.color }}

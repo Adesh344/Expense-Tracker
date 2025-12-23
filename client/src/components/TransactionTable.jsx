@@ -90,7 +90,7 @@ function TransactionTable() {
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Transaction History</h2>
-        
+
         <div className="flex space-x-3">
           <button
             onClick={handleExportCSV}
@@ -100,7 +100,7 @@ function TransactionTable() {
             <Download className="w-4 h-4 mr-2" />
             Export CSV
           </button>
-          
+
           <button
             onClick={handleDeleteAll}
             disabled={transactions.length === 0}
@@ -168,8 +168,8 @@ function TransactionTable() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {filteredTransactions.map((transaction) => (
-                <tr key={transaction._id} className="hover:bg-gray-50">
+              {filteredTransactions.map((transaction, index) => (
+                <tr key={transaction._id || `trans-${index}-${transaction.date}-${transaction.amount}`} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {new Date(transaction.date).toLocaleDateString()}
                   </td>
@@ -182,17 +182,15 @@ function TransactionTable() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      transaction.type === 'credit' 
-                        ? 'bg-green-100 text-green-800' 
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${transaction.type === 'credit'
+                        ? 'bg-green-100 text-green-800'
                         : 'bg-red-100 text-red-800'
-                    }`}>
+                      }`}>
                       {transaction.type}
                     </span>
                   </td>
-                  <td className={`px-6 py-4 whitespace-nowrap text-sm font-semibold ${
-                    transaction.type === 'credit' ? 'text-green-600' : 'text-red-600'
-                  }`}>
+                  <td className={`px-6 py-4 whitespace-nowrap text-sm font-semibold ${transaction.type === 'credit' ? 'text-green-600' : 'text-red-600'
+                    }`}>
                     {transaction.type === 'credit' ? '+' : '-'}₹{transaction.amount.toFixed(2)}
                   </td>
                 </tr>

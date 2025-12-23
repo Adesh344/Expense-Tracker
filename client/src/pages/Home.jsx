@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -8,10 +8,10 @@ import TransactionTable from '../components/TransactionTable';
 
 function Home() {
   const { user, loading } = useAuth();
-  const [refreshKey, setRefreshKey] = useState(0);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const handleUploadSuccess = () => {
-    setRefreshKey(prev => prev + 1);
+    setRefreshTrigger(prev => prev + 1);
   };
 
   if (loading) {
@@ -38,9 +38,9 @@ function Home() {
 
         <UploadCSV onUploadSuccess={handleUploadSuccess} />
         
-        <Dashboard key={refreshKey} />
+        <Dashboard refreshTrigger={refreshTrigger} />
         
-        <TransactionTable key={refreshKey} />
+        <TransactionTable refreshTrigger={refreshTrigger} />
       </div>
     </div>
   );
